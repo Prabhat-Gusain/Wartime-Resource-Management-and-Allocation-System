@@ -65,12 +65,11 @@ type NewRequestPayload struct {
 	CreatedByID  int    `json:"created_by_id" binding:"required"`
 }
 
-// --- CRITICAL FIX: Inventory Payload MUST include Location ---
 type NewInventoryPayload struct {
 	Name     string `json:"name" binding:"required"`
 	Category string `json:"category" binding:"required"`
 	Quantity int    `json:"quantity" binding:"required"`
-	Location string `json:"location"` // This field is required
+	Location string `json:"location"`
 }
 
 // --- AGGREGATION STRUCTS (FOR CHARTS) ---

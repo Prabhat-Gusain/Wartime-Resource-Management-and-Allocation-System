@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"resourcemanager/pkg/models"
 	"strconv"
-	"strings" // NEW: For checking error messages
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -128,7 +128,7 @@ func (h *AdminHandler) AssignRequest(c *gin.Context) {
 	err := h.RequestRepo.AssignRequestToOfficer(assignment.RequestID, assignment.OfficerID)
 
 	if err != nil {
-		// NEW: Check for the specific "insufficient inventory" error
+		//  Check for the specific "insufficient inventory" error
 		if strings.Contains(err.Error(), "insufficient inventory") {
 			log.Printf("Validation Error assigning request %d: %v", assignment.RequestID, err)
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()}) // Send the specific error to the user

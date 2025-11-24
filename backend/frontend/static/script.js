@@ -70,14 +70,14 @@ document.addEventListener('DOMContentLoaded', function() {
         let markers = []; 
 
         try {
-            // 1. Fetch ALL pending requests from the GIN API
+            // Fetch ALL pending requests from the GIN API
             const response = await fetch('http://localhost:9090/api/v1/admin/requests/pending');
             if (!response.ok) {
                 throw new Error("Failed to fetch pending requests for map.");
             }
             const pendingRequests = await response.json();
 
-            // 2. Iterate and plot each request
+            //  Iterate and plot each request
             pendingRequests.forEach(req => {
                 let lat, lng;
                 
@@ -98,10 +98,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 }
 
-                // 3. Create a red circle marker
+                //  Create a red circle marker
                 const marker = L.circleMarker([lat, lng], redMarkerOptions).addTo(mapInstance);
                 
-                // 4. Add the popup with request info and the assignment button
+                //  Add the popup with request info and the assignment button
                 marker.bindPopup(`
                     <b>Pending Request #${req.ID}</b><br>
                     <b>Location:</b> ${req.Location}<br>
@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 markers.push(marker);
             });
 
-            // 5. Fit the map to show all the new red markers
+            //  Fit the map to show all the new red markers
             if (markers.length > 0) {
                 const group = new L.featureGroup(markers);
                 mapInstance.fitBounds(group.getBounds().pad(0.1));
@@ -130,12 +130,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // --------------------------------------------------------------------------------
-    // NEW CHART LOGIC: Fetches live data from the backend
-    // --------------------------------------------------------------------------------
-    window.initCharts = async function() { // Make initCharts globally accessible
+    window.initCharts = async function() { 
         
-        // FIX: DESTRUCTION LOGIC
         if (resourceChartInstance) resourceChartInstance.destroy();
         if (consumptionChartInstance) consumptionChartInstance.destroy();
         if (requestsChartInstance) requestsChartInstance.destroy();
@@ -178,7 +174,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
         
-        // Consumption chart (Still dummy data)
+        // Consumption chart 
         const consumptionCtx = document.getElementById('consumptionChart');
         if (consumptionCtx) {
             consumptionChartInstance = new Chart(consumptionCtx.getContext('2d'), {
@@ -195,7 +191,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
         
-        // Requests chart (Still dummy data)
+        // Requests chart 
         const requestsCtx = document.getElementById('requestsChart');
         if (requestsCtx) {
             requestsChartInstance = new Chart(requestsCtx.getContext('2d'), {
@@ -212,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
         
-        // Shortage prediction chart (Still dummy data)
+        // Shortage prediction chart 
         const shortageCtx = document.getElementById('shortageChart');
         if (shortageCtx) {
             shortageChartInstance = new Chart(shortageCtx.getContext('2d'), {
@@ -229,4 +225,4 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     }
-}); // DOMContentLoaded end
+}); 

@@ -1,6 +1,5 @@
 (function() {
 
-    // --- Configuration (Local Scope) ---
     const API_BASE_URL = 'http://localhost:9090/api/v1/admin';
     const URGENCY_THRESHOLD = 500;
     
@@ -192,9 +191,6 @@
         });
     }
     
-    // --------------------------------------------------
-    // --- CRITICAL FIX: Updated renderInventoryTable ---
-    // --------------------------------------------------
     function renderInventoryTable(resources) {
         const tableBody = document.querySelector('#inventory .inventory-table tbody');
         if (!tableBody) return; 
@@ -295,8 +291,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         const navLinks = document.querySelectorAll('.nav-link');
         const pages = document.querySelectorAll('.page');
-        
-        // 1. Attach event listener for the "Submit Request" form 
+
         const requestForm = document.getElementById('request-submission-form');
         if (requestForm) {
             requestForm.addEventListener('submit', async function(e) {
@@ -344,8 +339,6 @@
         }
 
         // --------------------------------------------------
-        // --- CRITICAL FIX: Updated Inventory Form Listener ---
-        // --------------------------------------------------
         const inventoryForm = document.getElementById('inventory-submission-form');
         if (inventoryForm) {
             inventoryForm.addEventListener('submit', async function(e) {
@@ -355,8 +348,8 @@
                     name: document.getElementById('inv-name')?.value || '',
                     category: document.getElementById('inv-category')?.value || '',
                     quantity: parseInt(document.getElementById('inv-quantity')?.value || '0'),
-                    location: document.getElementById('inv-location')?.value || '', // Added location
-                    // REMOVED: unit and critical_level (they don't exist in DB)
+                    location: document.getElementById('inv-location')?.value || '', 
+                
                 };
 
                 if (!payload.name || !payload.category || payload.quantity <= 0) {
@@ -369,7 +362,7 @@
             });
         }
         
-        // 3. Use Event Delegation for ALL dynamic buttons
+     
         document.addEventListener('click', function(e) {
             
             const mapButton = e.target.closest('.btn-map-triage');
@@ -473,7 +466,7 @@
             });
         });
         
-        // 5. Initial Load Operations
+        // Initial Load Operations
         if (document.getElementById('dashboard')?.classList.contains('active')) {
             fetchPendingRequests();
             if (typeof initCharts === 'function') initCharts(); 
