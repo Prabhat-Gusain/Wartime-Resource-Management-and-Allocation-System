@@ -1,0 +1,14 @@
+
+Connected to: Oracle Database 11g Express Edition Release 11.2.0.2.0 - 64bit Production
+
+Export file created by EXPORT:V11.02.00 via conventional path
+import done in WE8MSWIN1252 character set and AL16UTF16 NCHAR character set
+import server uses AL32UTF8 character set (possible charset conversion)
+. importing PRABHAT's objects into PRABHAT
+. . importing table                   "ACTIVITIES"         10 rows imported
+. . importing table                "NOTIFICATIONS"          9 rows imported
+. . importing table                     "REQUESTS"          8 rows imported
+. . importing table                    "RESOURCES"          9 rows imported
+. . importing table                  "TROOP_USERS"          9 rows imported
+About to enable constraints...
+Import terminated successfully without warnings.

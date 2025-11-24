@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>War Resource Manager</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="file:///D:/Projects/War%20resource%20management%20system/backend/frontend/static/styles.css">
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-crosshairs"></i>
+                <h1>War Resource Manager</h1>
+            </div>
+            
+            <nav>
+                <ul>
+                    <li><a href="#" class="nav-link active" data-page="dashboard">Dashboard</a></li>
+                    <li><a href="#" class="nav-link" data-page="inventory">Inventory</a></li>
+                    <li><a href="#" class="nav-link" data-page="requests">Requests</a></li>
+                    <li><a href="#" class="nav-link" data-page="allocation">Allocation</a></li>
+                    <li><a href="#" class="nav-link" data-page="map">Map View</a></li>
+                </ul>
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+            
+        </div>
+    </header>
+    
+    <main class="container">
+        <div class="page" id="login-page">
+            <div class="login-container">
+                <div class="login-header">
+                    <h2 class="login-title">War Resource Manager</h2>
+                    <p>Access requires authorized credentials</p>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Username</label>
+                    <input type="text" class="form-input" placeholder="Enter your username">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" placeholder="Enter your password">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Role</label>
+                    <select class="form-select">
+                        <option value="">Select your role</option>
+                        <option value="commander">Commander</option>
+                        <option value="logistics">Logistics Officer</option>
+                        <option value="warehouse">Warehouse Manager</option>
+                    </select>
+                </div>
+                
+                <div class="form-actions">
+                    <button class="btn btn-primary">Login</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="page active" id="dashboard">
+            <div class="page-header">
+                <h2 class="page-title">Dashboard</h2>
+                <span>Last updated: Today, 10:45 AM</span>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div class="stat-card-title">Food Supplies</div>
+                        <div class="stat-card-icon icon-food">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card-value">12,450</div>
+                    <div class="stat-card-change change-negative">
+                        <i class="fas fa-arrow-down"></i>
+                        <span>12% since yesterday</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div class="stat-card-title">Fuel</div>
+                        <div class="stat-card-icon icon-fuel">
+                            <i class="fas fa-gas-pump"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card-value">8,720</div>
+                    <div class="stat-card-change change-negative">
+                        <i class="fas fa-arrow-down"></i>
+                        <span>8% since yesterday</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div class="stat-card-title">Medical Supplies</div>
+                        <div class="stat-card-icon icon-medical">
+                            <i class="fas fa-first-aid"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card-value">5,340</div>
+                    <div class="stat-card-change change-positive">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>5% since yesterday</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div class="stat-card-title">Weapons</div>
+                        <div class="stat-card-icon icon-weapons">
+                            <i class="fas fa-gun"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card-value">3,280</div>
+                    <div class="stat-card-change change-positive">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>3% since yesterday</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div class="stat-card-title">Manpower</div>
+                        <div class="stat-card-icon icon-manpower">
+                            <i class="fas fa-users"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card-value">2,150</div>
+                    <div class="stat-card-change change-negative">
+                        <i class="fas fa-arrow-down"></i>
+                        <span>2% since yesterday</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Resource Distribution</h3>
+                        <select class="filter-select">
+                            <option>Last 7 days</option>
+                            <option>Last 30 days</option>
+                            <option>Last 90 days</option>
+                        </select>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="resourceChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Urgent Requests</h3>
+                        <span class="badge" id="urgent-badge">3 New</span>
+                    </div>
+                    <ul class="urgent-requests" id="urgent-requests-list">
+                        </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="page" id="inventory">
+            <div class="page-header">
+                <h2 class="page-title">Inventory Management</h2>
+            </div>
+
+            <div class="card" style="margin-bottom: 2rem;">
+                <div class="card-header">
+                    <h3 class="card-title">Add New Inventory Item</h3>
+                </div>
+                <form class="form-grid" id="inventory-submission-form" style="padding: 1.5rem;">
+                    <div class="form-group">
+                        <label class="form-label">Item Name</label>
+                        <input type="text" class="form-input" id="inv-name" placeholder="e.g., MREs, Diesel Fuel">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Category (Type)</label>
+                        <select class="form-select" id="inv-category">
+                            <option value="" disabled selected>Select category</option>
+                            <option value="Food">Food</option>
+                            <option value="Fuel">Fuel</option>
+                            <option value="Medical">Medical</option>
+                            <option value="Weapons">Weapons</option>
+                            <option value="Manpower">Manpower</option>
+                            <option value="Ammunition">Ammunition</option>
+                            <option value="Communication">Communication</option>
+                            <option value="Water">Water</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Quantity</label>
+                        <input type="number" class="form-input" id="inv-quantity" placeholder="0">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Location</label>
+                        <input type="text" class="form-input" id="inv-location" placeholder="e.g., Headquarters, Northern Base">
+                    </div>
+                    
+                    <div class="form-actions" style="grid-column: 1 / -1;">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Add Item to Inventory
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="inventory-controls">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search inventory...">
+                </div>
+            </div>
+            
+            <table class="inventory-table">
+                <thead>
+                    <tr>
+                        <th>Resource</th>
+                        <th>Type</th>
+                        <th>Quantity</th>
+                        <th>Location</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    </tbody>
+            </table>
+        </div>
+                
+                <div class="filters">
+                    <select class="filter-select">
+                        <option>All Types</option>
+                        <option>Food</option>
+                        <option>Fuel</option>
+                        <option>Medical</option>
+                        <option>Weapons</option>
+                        <option>Manpower</option>
+                    </select>
+                    
+                    <select class="filter-select">
+                        <option>All Locations</option>
+                        <option>Headquarters</option>
+                        <option>Northern Base</option>
+                        <option>Eastern Depot</option>
+                        <option>Western Camp</option>
+                    </select>
+                </div>
+            </div>
+            
+            <table class="inventory-table">
+                <thead>
+                    <tr>
+                        <th>Resource</th>
+                        <th>Type</th>
+                        <th>Quantity</th>
+                        <th>Location</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    </tbody>
+            </table>
+        </div>
+        
+        <div class="page" id="requests">
+            <div class="page-header">
+                <h2 class="page-title">Resource Requests</h2>
+                <button class="btn btn-primary">
+                    <i class="fas fa-plus"></i> New Request
+                </button>
+            </div>
+            
+            <form class="form-grid" id="request-submission-form">
+                <div class="form-card">
+                    <h3 class="card-title">Create New Request</h3>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Requesting Unit</label>
+                        <input type="text" class="form-input" placeholder="Unit designation">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Resource Type</label>
+                        <select class="form-select" id="request-resource-type">
+                            <option value="" disabled selected>Select resource type</option>
+                            <option value="Food">Food</option>
+                            <option value="Fuel">Fuel</option>
+                            <option value="Medical">Medical</option>
+                            <option value="Weapons">Weapons</option>
+                            <option value="Manpower">Manpower</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Specific Item</label>
+                        <input type="text" class="form-input" placeholder="Item name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Quantity</label>
+                        <input type="number" class="form-input" id="request-quantity" placeholder="Enter quantity">
+                    </div>
+                </div>
+                
+                <div class="form-card">
+                    <div class="form-group">
+                        <label class="form-label">Priority Level</label>
+                        <select class="form-select">
+                            <option value="" disabled selected>Select priority</option>
+                            <option>Low</option>
+                            <option>Medium</option>
+                            <option>High</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Delivery Location</label>
+                        <input type="text" class="form-input" id="request-location" placeholder="Enter coordinates or address">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Required By</label>
+                        <input type="date" class="form-input">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Additional Notes</label>
+                        <textarea class="form-textarea" placeholder="Special instructions or details"></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Submit Request</button>
+                    </div>
+                </div>
+            </form>
+        </div> <div class="page" id="allocation">
+            <div class="page-header">
+                <h2 class="page-title">Resource Allocation</h2>
+                <div class="filters">
+                    <select class="filter-select">
+                        <option>Pending Approval</option>
+                        <option>Approved</option>
+                        <option>Rejected</option>
+                    </select>
+                </div>
+            </div>
+            
+            <table class="inventory-table">
+                <thead>
+                    <tr>
+                        <th>Request ID</th>
+                        <th>Unit</th>
+                        <th>Resource</th>
+                        <th>Quantity</th>
+                        <th>Priority</th>
+                        <th>Requested</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    </tbody>
+            </table>
+        </div>
+        
+        <div class="page" id="map">
+            <div class="page-header">
+                <h2 class="page-title">Resource Map View</h2>
+                <div class="filters">
+                    <select class="filter-select">
+                        <option>All Resources</option>
+                        <option>Food</option>
+                        <option>Fuel</option>
+                        <option>Medical</option>
+                        <option>Weapons</option>
+                        <option>Manpower</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div id="map-container">
+                <div id="resource-map"></div>
+            </div>
+            
+            <div class="card" style="margin-top: 1.5rem;">
+                <div class="card-header">
+                    <h3 class="card-title">Active Deliveries</h3>
+                </div>
+                <table class="inventory-table">
+                    <thead>
+                        <tr>
+                            <th>Delivery ID</th>
+                            <th>Resource</th>
+                            <th>Quantity</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>ETA</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#DLV-1042</td>
+                            <td>Medical Supplies</td>
+                            <td>250</td>
+                            <td>Headquarters</td>
+                            <td>Frontline</td>
+                            <td>2 hours</td>
+                            <td>In Transit</td>
+                        </tr>
+                        <tr>
+                            <td>#DLV-1041</td>
+                            <td>Ammunition</td>
+                            <td>1,200</td>
+                            <td>Eastern Depot</td>
+                            <td>Northern Base</td>
+                            <td>4 hours</td>
+                            <td>Preparing</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="page" id="reports">
+            </div>
+    </main>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="file:///D:/Projects/War%20resource%20management%20system/backend/frontend/static/admin.js"></script>
+    <script src="file:///D:/Projects/War%20resource%20management%20system/backend/frontend/static/script.js"></script>
+</body>
+</html>
